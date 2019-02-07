@@ -9,7 +9,12 @@ from ..manager import CertificationGroupManager
 
 
 class CertificationGroup(TimeStampedModel):
-
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        blank=True, null=True,
+        on_delete=models.deletion.CASCADE,
+        related_name='certification_certificationgroup_related',
+    )
     name = models.CharField(max_length=200)
     description = models.TextField(null=True)
     accredible_id = models.IntegerField(blank=True, null=True)

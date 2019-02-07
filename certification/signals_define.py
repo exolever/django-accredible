@@ -2,7 +2,6 @@ from django.dispatch import Signal
 
 
 create_certification_group = Signal(
-    providing_args=[],
     use_caching=True)
 
 update_certification_group = Signal(

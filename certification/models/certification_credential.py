@@ -13,11 +13,6 @@ class CertificationCredential(TimeStampedModel):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name='certifications')
-    created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        blank=True, null=True,
-        on_delete=models.deletion.CASCADE,
-        related_name='certification_certificationgroup_related')
     accredible_id = models.IntegerField(blank=True, null=True)
     status = models.CharField(
         max_length=1,
