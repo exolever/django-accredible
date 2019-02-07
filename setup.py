@@ -21,9 +21,6 @@ def get_version(*file_paths):
     raise RuntimeError('Unable to find version string.')
 
 
-version = get_version("certification", "__init__.py")
-
-
 if sys.argv[-1] == 'publish':
     try:
         import wheel
@@ -46,7 +43,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
     name='django-accredible',
-    version=version,
+    version='0.1.0',
     description="""Integrate Accredible certification in a Django App""",
     long_description=readme + '\n\n' + history,
     author='Tomas Garzon',
