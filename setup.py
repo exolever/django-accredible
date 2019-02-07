@@ -43,7 +43,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
     name='django-accredible',
-    version='0.1.0',
+    version='0.2.0',
     description="""Integrate Accredible certification in a Django App""",
     long_description=readme + '\n\n' + history,
     author='Tomas Garzon',
