@@ -6,6 +6,7 @@ from ..accredible import groups, credentials
 
 class CreateAccredibleConsultantRoleGroupTask(Task):
     ignore_result = True
+    name = 'CreateAccredibleConsultantRoleGroupTask'
 
     def run(self, group_id, issued_on, course_name):
         CertificationGroup = apps.get_model('certification', 'CertificationGroup')

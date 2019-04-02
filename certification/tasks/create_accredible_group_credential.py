@@ -7,6 +7,7 @@ from ..accredible import credentials
 class CreateAccredibleGroupCredentialTask(Task):
 
     ignore_result = True
+    name = 'CreateAccredibleGroupCredentialTask'
 
     def run(self, credentials_id):
         CertificationCredential = apps.get_model('certification', 'CertificationCredential')

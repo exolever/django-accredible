@@ -6,6 +6,7 @@ from ..accredible import groups
 
 class UpdateAccredibleGroupTask(Task):
     ignore_result = True
+    name = 'UpdateAccredibleGroupTask'
 
     def run(self, group_id, issued_on, course_name):
         CertificationGroup = apps.get_model('certification', 'CertificationGroup')
