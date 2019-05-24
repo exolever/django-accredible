@@ -3,3 +3,4 @@ pyaccredible
 django-appconf
 graphene
 graphene-django
+celery
