@@ -5,11 +5,18 @@ django-accredible
 .. image:: https://badge.fury.io/py/django-accredible.svg
     :target: https://badge.fury.io/py/django-accredible
 
-.. image:: https://travis-ci.org/tomasgarzon/django-accredible.svg?branch=master
-    :target: https://travis-ci.org/tomasgarzon/django-accredible
+.. image:: https://requires.io/github/exolever/django-accredible/requirements.svg?branch=master
+     :target: https://requires.io/github/exolever/django-accredible/requirements/?branch=master
+     :alt: Requirements Status
 
-.. image:: https://codecov.io/gh/tomasgarzon/django-accredible/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/tomasgarzon/django-accredible
+.. image:: https://travis-ci.org/exolever/django-accredible.svg?branch=master
+    :target: https://travis-ci.org/exolever/django-accredible
+
+.. image:: https://codecov.io/gh/exolever/django-accredible/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/exolever/django-accredible
+
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=exolever_django-accredible&metric=alert_status
+   :target: https://sonarcloud.io/dashboard?id=exolever_django-accredible
 
 Integrate Accredible certification in a Django App
 
