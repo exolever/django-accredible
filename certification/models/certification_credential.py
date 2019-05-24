@@ -9,10 +9,12 @@ from ..conf import settings
 
 class CertificationCredential(TimeStampedModel):
     group = models.ForeignKey(
-        'CertificationGroup', related_name='credentials')
+        'CertificationGroup', related_name='credentials',
+        on_delete=models.CASCADE)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name='certifications')
+        related_name='certifications',
+        on_delete=models.CASCADE)
     accredible_id = models.IntegerField(blank=True, null=True)
     status = models.CharField(
         max_length=1,
