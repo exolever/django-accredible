@@ -33,7 +33,7 @@ def parse_simple_response(credential, data):
 
 
 def get_participants(credentials):
-    return [(credential.user.get_full_name(), credential.user.email) for credential in credentials]
+    return [(credential.user_name, credential.user_email) for credential in credentials]
 
 
 def create_group_credential(credentials, instructor_name=None, accredible_id=None, issued_on=None):
@@ -79,8 +79,8 @@ def create_group_credential(credentials, instructor_name=None, accredible_id=Non
 def create_simple_credential(credential, instructor_name):
     client = AccredibleWrapper(key=settings.ACCREDIBLE_API_KEY, server=settings.ACCREDIBLE_SERVER_URL)
     data = {
-        'name': credential.user.get_full_name(),
-        'email': credential.user.email,
+        'name': credential.user_name,
+        'email': credential.user_email,
         'group_id': credential.group.accredible_id,
         'issued_on': timezone.now().date(),
         'custom_attrs': {

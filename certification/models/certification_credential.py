@@ -1,3 +1,5 @@
+from importlib import import_module
+
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -47,3 +49,23 @@ class CertificationCredential(TimeStampedModel):
     @property
     def pdf(self):
         return '{}/{}.pdf'.format(settings.ACCREDIBLE_PDF_HOST, self.accredible_id)
+
+    @property
+    def user_name(self):
+        try:
+            return self.user.get_full_name()
+        except AttributeError:
+            user_name_handler = settings.ACCREDIBLE_USER_NAME_HANDLER
+            module_path, function_name = user_name_handler.rsplit('.', 1)
+            module = import_module(module_path)
+            return getattr(module, function_name)(self.content_object)
+
+    @property
+    def user_email(self):
+        try:
+            return self.user.email
+        except AttributeError:
+            user_email_handler = settings.ACCREDIBLE_USER_EMAIL_HANDLER
+            module_path, function_name = user_email_handler.rsplit('.', 1)
+            module = import_module(module_path)
+            return getattr(module, function_name)(self.content_object)
