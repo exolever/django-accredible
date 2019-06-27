@@ -26,6 +26,9 @@ class CertificationGroup(TimeStampedModel):
     )
     object_id = models.PositiveIntegerField(null=True)
     content_object = GenericForeignKey('content_type', 'object_id')
+    instructor_name = models.CharField(
+        max_length=200,
+        blank=True, null=True)
     _type = models.CharField(
         max_length=100,
         choices=settings.CERTIFICATION_CH_GROUP_CH_TYPE)
@@ -37,7 +40,3 @@ class CertificationGroup(TimeStampedModel):
 
     def __str__(self):
         return self.name
-
-    @property
-    def instructor_name(self):
-        return self.content_object.created_by.get_full_name()
