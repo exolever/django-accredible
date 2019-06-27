@@ -40,7 +40,4 @@ class CertificationGroup(TimeStampedModel):
 
     @property
     def instructor_name(self):
-        instructor = None
-        if self._type == settings.CERTIFICATION_CH_GROUP_WORKSHOP:
-            instructor = self.content_object.created_by.get_full_name()
-        return instructor
+        return self.content_object.created_by.get_full_name()
