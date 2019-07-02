@@ -4,3 +4,4 @@ django-appconf
 graphene
 graphene-django
 celery
+python-dateutil
