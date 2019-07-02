@@ -12,10 +12,11 @@ logger = logging.getLogger('accredible')
 BATCH_SIZE = 10
 
 
-def parse_group_response(group, data):
+def parse_group_response(group, data, participants_by_email):
     for data_credential in data:
         email = data_credential['recipient']['email']
-        credential = group.credentials.filter(user__email=email).first()
+        user = participants_by_email.get(email)
+        credential = group.credentials.filter(user_id=user).first()
         if credential:
             parse_simple_response(credential, data_credential)
 
@@ -36,6 +37,10 @@ def get_participants(credentials):
     return [(credential.user_name, credential.user_email) for credential in credentials]
 
 
+def get_participants_by_email(credentials):
+    return {credential.user_email: credential.user.pk for credential in credentials}
+
+
 def create_group_credential(credentials, instructor_name=None, accredible_id=None, issued_on=None):
     client = AccredibleWrapper(key=settings.ACCREDIBLE_API_KEY, server=settings.ACCREDIBLE_SERVER_URL)
     group = credentials.first().group
@@ -43,6 +48,8 @@ def create_group_credential(credentials, instructor_name=None, accredible_id=Non
     issued_on = issued_on if issued_on is not None else timezone.now().date()
 
     participants = get_participants(credentials)
+    participants_by_email = get_participants_by_email(credentials)
+
     total_credentials = len(participants)
     index = 0
     while(index < total_credentials):
@@ -55,7 +62,6 @@ def create_group_credential(credentials, instructor_name=None, accredible_id=Non
             'group_id': group_id,
             'issued_on': issued_on,
         }
-
         if instructor_name:
             data['custom_attrs'] = {
                 'instructor_name': instructor_name,
@@ -70,7 +76,9 @@ def create_group_credential(credentials, instructor_name=None, accredible_id=Non
             if 'errors' in response.json().keys():
                 logger.error('Accredible.credentials.create_group_credential: {}'.format(response.json()['errors']))
             else:
-                parse_group_response(group, response.json()['credentials'])
+                parse_group_response(
+                    group, response.json()['credentials'],
+                    participants_by_email)
         else:
             logger.error('Accredible.credentials.create_group_credential: {}'.format(group.name))
             response.raise_for_status()
