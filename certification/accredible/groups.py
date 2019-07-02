@@ -1,11 +1,22 @@
 import requests
 import logging
+import datetime
+from dateutil import parser
 
 from django.conf import settings
 
 from pyaccredible.client import AccredibleWrapper
 
 logger = logging.getLogger('accredible')
+
+
+def format_date(issued_on):
+    issued_on_dt = None
+    if isinstance(issued_on, datetime.date) or isinstance(issued_on, datetime.datetime):
+        issued_on_dt = issued_on
+    else:
+        issued_on_dt = parser.parse(issued_on)
+    return issued_on_dt.strftime('%d %B, %Y')
 
 
 def create_group(group, issued_on=None, course_name=None, design_id=None):
@@ -17,7 +28,7 @@ def create_group(group, issued_on=None, course_name=None, design_id=None):
     if design_id:
         group_name = group.name
         if issued_on:
-            group_name = '{} - {}'.format(group_name, issued_on.strftime('%d %B, %Y'))
+            group_name = '{} - {}'.format(group_name, format_date(issued_on))
 
         logger.info('GROUP: {} - {}'.format(group_name, design_id))
 
@@ -56,7 +67,7 @@ def update_group(group, issued_on=None, course_name=None):
         server=settings.ACCREDIBLE_SERVER_URL)
     group_name = group.name
     if issued_on:
-        group_name = '{} - {}'.format(group_name, issued_on.strftime('%d %B, %Y'))
+        group_name = '{} - {}'.format(group_name, format_date(issued_on))
 
     logger.info('GROUP: {} - {}'.format(group_name, group.accredible_id))
 
