@@ -6,6 +6,7 @@ from django.utils import timezone
 
 from pyaccredible.client import AccredibleWrapper
 
+from ..signals_define import accredible_certification_created
 logger = logging.getLogger('accredible')
 
 
@@ -31,6 +32,10 @@ def parse_simple_response(credential, data):
     credential.seo_image = data['seo_image']
     credential.save()
     generate_pdf_credential(credential)
+    accredible_certification_created.send(
+        sender=None,
+        user=credential.user,
+        course_name=credential.group.name)
 
 
 def get_participants(credentials):

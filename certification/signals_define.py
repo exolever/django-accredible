@@ -20,3 +20,7 @@ create_certification_credential = Signal(
 create_certification_group_credential = Signal(
     providing_args=['user_from', 'course_name', 'issued_on'],
     use_caching=True)
+
+accredible_certification_created = Signal(
+    providing_args=['user', 'course_name'],
+    use_caching=True)
