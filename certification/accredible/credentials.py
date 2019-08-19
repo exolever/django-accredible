@@ -33,7 +33,7 @@ def parse_simple_response(credential, data):
     credential.save()
     generate_pdf_credential(credential)
     accredible_certification_created.send(
-        sender=None,
+        sender=credential.__class__,
         user=credential.user,
         course_name=credential.group.name)
 
