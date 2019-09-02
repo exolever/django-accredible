@@ -54,7 +54,8 @@ class CertificationGroupManager(models.Manager):
             credential = certification_group.credentials.create(
                 user=related_object.user,
                 content_type=ContentType.objects.get_for_model(related_object),
-                object_id=related_object.pk)
+                object_id=related_object.pk,
+                issued_on=issued_on)
             credentials.append(credential.pk)
 
         if settings.ACCREDIBLE_ENABLED and len(credentials):
