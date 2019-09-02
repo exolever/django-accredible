@@ -26,10 +26,7 @@ django-accredible
 
 Integrate Accredible certification in a Django App
 
-Documentation
--------------
 
-The full documentation is at https://django-accredible.readthedocs.io.
 
 Quickstart
 ----------
@@ -44,27 +41,9 @@ Add it to your `INSTALLED_APPS`:
 
     INSTALLED_APPS = (
         ...
-        'certification.apps.CertificationConfig',
+        'certification',
         ...
     )
-
-Add django-accredible's URL patterns:
-
-.. code-block:: python
-
-    from certification import urls as certification_urls
-
-
-    urlpatterns = [
-        ...
-        url(r'^', include(certification_urls)),
-        ...
-    ]
-
-Features
---------
-
-* TODO
 
 Running Tests
 -------------
