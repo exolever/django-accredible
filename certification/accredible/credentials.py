@@ -5,12 +5,22 @@ from django.conf import settings
 from django.utils import timezone
 
 from pyaccredible.client import AccredibleWrapper
+from dateutil import parser
 
 from ..signals_define import accredible_certification_created
 logger = logging.getLogger('accredible')
 
 
 BATCH_SIZE = 10
+
+
+def convert_to_datetime(issued_on):
+    issued_on_dt = None
+    if isinstance(issued_on, datetime.date) or isinstance(issued_on, datetime.datetime):
+        issued_on_dt = issued_on
+    else:
+        issued_on_dt = parser.parse(issued_on)
+    return issued_on_dt
 
 
 def parse_group_response(group, data, participants_by_email):
@@ -65,7 +75,7 @@ def create_group_credential(credentials, instructor_name=None, accredible_id=Non
         data = {
             'participants': participants[index:end_index],
             'group_id': group_id,
-            'issued_on': issued_on,
+            'issued_on': convert_to_datetime(issued_on),
         }
         if instructor_name:
             data['custom_attrs'] = {
