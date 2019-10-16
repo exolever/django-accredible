@@ -46,7 +46,9 @@ def parse_simple_response(credential, data):
     accredible_certification_created.send(
         sender=credential.__class__,
         user=credential.user,
-        course_name=credential.group.name)
+        course_name=credential.group.name,
+        group=credential.group,
+    )
 
 
 def get_participants(credentials):
