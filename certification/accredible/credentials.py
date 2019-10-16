@@ -47,7 +47,7 @@ def parse_simple_response(credential, data):
         sender=credential.__class__,
         user=credential.user,
         course_name=credential.group.name,
-        group=credential.group,
+        credential=credential,
     )
 
 
