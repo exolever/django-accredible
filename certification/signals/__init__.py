@@ -17,7 +17,5 @@ def setup_signals():
     create_certification_group.connect(create_accredible_handler)
     delete_certification_group.connect(delete_accredible_handler)
     create_certification_credential.connect(create_credential_accredible_handler)
-    create_certification_group_credential.connect(
-        create_group_and_credentials_handler)
-    update_certification_group.connect(
-        update_certification_group_handler)
+    create_certification_group_credential.connect(create_group_and_credentials_handler)
+    update_certification_group.connect(update_certification_group_handler)

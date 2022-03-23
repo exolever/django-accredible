@@ -15,6 +15,13 @@ logger = logging.getLogger('accredible')
 BATCH_SIZE = 10
 
 
+def login(accredible_api_key=None, accredible_server_url=None):
+    return AccredibleWrapper(
+        key=accredible_api_key or settings.ACCREDIBLE_API_KEY,
+        server=accredible_server_url or settings.ACCREDIBLE_SERVER_URL,
+    )
+
+
 def convert_to_datetime(issued_on):
     issued_on_dt = None
     if isinstance(issued_on, datetime.date) or isinstance(issued_on, datetime.datetime):
@@ -59,8 +66,16 @@ def get_participants_by_email(credentials):
     return {credential.user_email: credential.user.pk for credential in credentials}
 
 
-def create_group_credential(credentials, instructor_name=None, accredible_id=None, issued_on=None):
-    client = AccredibleWrapper(key=settings.ACCREDIBLE_API_KEY, server=settings.ACCREDIBLE_SERVER_URL)
+def create_group_credential(
+        credentials,
+        instructor_name=None,
+        accredible_id=None,
+        issued_on=None,
+        accredible_key=None,
+        accredible_url=None,
+    ):
+
+    client = login(accredible_key, accredible_url)
     group = credentials.first().group
     group_id = group.accredible_id if accredible_id is None else accredible_id
     issued_on = issued_on if issued_on is not None else timezone.now().date()
@@ -102,8 +117,8 @@ def create_group_credential(credentials, instructor_name=None, accredible_id=Non
             response.raise_for_status()
 
 
-def create_simple_credential(credential, instructor_name):
-    client = AccredibleWrapper(key=settings.ACCREDIBLE_API_KEY, server=settings.ACCREDIBLE_SERVER_URL)
+def create_simple_credential(credential, instructor_name, accredible_key=None, accredible_url=None):
+    client = login(accredible_key, accredible_url)
     data = {
         'name': credential.user_name,
         'email': credential.user_email,
@@ -120,8 +135,8 @@ def create_simple_credential(credential, instructor_name):
         response.raise_for_status()
 
 
-def generate_pdf_credential(credential):
-    client = AccredibleWrapper(key=settings.ACCREDIBLE_API_KEY, server=settings.ACCREDIBLE_SERVER_URL)
+def generate_pdf_credential(credential, accredible_key=None, accredible_url=None):
+    client = login(accredible_key, accredible_url)
     response = client.generate_pdf(credential.accredible_id)
     if response.status_code != requests.codes.ok:
         logger.error('Accredible.credentials.generate_pdf: {}'.format(credential))

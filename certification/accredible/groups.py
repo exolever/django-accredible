@@ -5,7 +5,7 @@ from dateutil import parser
 
 from django.conf import settings
 
-from pyaccredible.client import AccredibleWrapper
+from .credentials import login
 
 logger = logging.getLogger('accredible')
 
@@ -19,10 +19,8 @@ def format_date(issued_on):
     return issued_on_dt.strftime('%d %B, %Y')
 
 
-def create_group(group, issued_on=None, course_name=None, design_id=None):
-    client = AccredibleWrapper(
-        key=settings.ACCREDIBLE_API_KEY,
-        server=settings.ACCREDIBLE_SERVER_URL)
+def create_group(group, issued_on=None, course_name=None, design_id=None, accredible_key=None, accredible_url=None):  # noqa
+    client = login(accredible_key, accredible_url)
     design_id = settings.ACCREDIBLE_DESIGN.get(group._type) if not design_id else design_id
 
     if design_id:
@@ -54,17 +52,13 @@ def create_group(group, issued_on=None, course_name=None, design_id=None):
     return group
 
 
-def delete_group(group):
-    client = AccredibleWrapper(
-        key=settings.ACCREDIBLE_API_KEY,
-        server=settings.ACCREDIBLE_SERVER_URL)
+def delete_group(group, accredible_key=None, accredible_url=None):
+    client = login(accredible_key, accredible_url)
     client.group_credentials_delete(group_id=group.accredible_id)
 
 
-def update_group(group, issued_on=None, course_name=None):
-    client = AccredibleWrapper(
-        key=settings.ACCREDIBLE_API_KEY,
-        server=settings.ACCREDIBLE_SERVER_URL)
+def update_group(group, issued_on=None, course_name=None, accredible_key=None, accredible_url=None):
+    client = login(accredible_key, accredible_url)
     group_name = group.name
     if issued_on:
         group_name = '{} - {}'.format(group_name, format_date(issued_on))
