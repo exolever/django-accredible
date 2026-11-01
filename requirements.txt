@@ -5,4 +5,4 @@ graphene
 graphene-django
 celery
 python-dateutil
-setuptools==59.7.0
+setuptools==65.5.1
